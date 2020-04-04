@@ -355,43 +355,23 @@ you should place your code here."
     (editorconfig-mode 1)
 
     (defun rubocop-runner-current-file ()
-        (interactive)
-        (compile
-            (format
-                "cd %s && rubocop -a %s"
-                (projectile-project-root)
-                (shell-quote-argument (file-relative-name (buffer-file-name) (projectile-project-root))))))
+      (interactive)
+      (compile
+       (format
+        "cd %s && bundle exec rubocop -a %s"
+        (projectile-project-root)
+        (shell-quote-argument (file-relative-name (buffer-file-name) (projectile-project-root))))))
 
     (spacemacs/set-leader-keys "[c" 'rubocop-runner-current-file)
 
-    (defun jest-runner-current-file ()
-        (interactive)
-        (compile
-        (format
-            "cd %s && node_modules/.bin/jest %s"
-            (projectile-project-root)
-            (shell-quote-argument (file-relative-name (buffer-file-name) (projectile-project-root))))))
-
-    (spacemacs/set-leader-keys "[j" 'jest-runner-current-file)
-
-    (defun eslint-runner-current-file ()
-        (interactive)
-        (compile
-        (format
-            "cd %s && node_modules/.bin/eslint --fix %s"
-            (projectile-project-root)
-            (shell-quote-argument (file-relative-name (buffer-file-name) (projectile-project-root))))))
-
-    (spacemacs/set-leader-keys "[e" 'eslint-runner-current-file)
-
     (defun rspec-runner-current-file ()
-        (interactive)
-        (compile
-         (format
-            "cd %s && bundle exec rspec %s:%s"
-            (projectile-project-root)
-            (shell-quote-argument (file-relative-name (buffer-file-name) (projectile-project-root)))
-            (format-mode-line "%l"))))
+      (interactive)
+      (compile
+       (format
+        "cd %s && bundle exec rspec %s:%s"
+        (projectile-project-root)
+        (shell-quote-argument (file-relative-name (buffer-file-name) (projectile-project-root)))
+        (format-mode-line "%l"))))
 
     (spacemacs/set-leader-keys "[r" 'rspec-runner-current-file)
 
