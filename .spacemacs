@@ -405,6 +405,13 @@ you should place your code here."
 
 	  (spacemacs/set-leader-keys "[j" 'jest-runner-current-file)
 
+	  (defun shell-eslint-runner-current-file ()
+		  (shell-command
+		   (format
+			  "cd %s && npx eslint --fix %s"
+			  (projectile-project-root)
+			  (shell-quote-argument (file-relative-name (buffer-file-name) (projectile-project-root))))))
+
 	  (defun eslint-runner-current-file ()
 		  (interactive)
 		  (compile
@@ -433,16 +440,24 @@ you should place your code here."
 
     (spacemacs/set-leader-keys "[l" 'show-file-name-number)
 
-    (add-hook 'focus-out-hook
-      (defun save-buffers-if-needed  ()
-        (interactive)
-        (dolist
-            (buffer (buffer-list))
-          (with-current-buffer
-              buffer
-            (when
-                (and (buffer-file-name) (buffer-modified-p))
-              (save-buffer))))))
+    (add-hook
+     'ruby-mode-hook
+     (rubocopfmt-mode))
+
+    (add-hook
+     'after-save-hook
+     (defun eslint ()
+       (when (derived-mode-p 'js2-mode)
+         (shell-eslint-runner-current-file)
+         (revert-buffer t t))))
+
+    (add-hook
+     'focus-out-hook
+     (defun save-modified-buffers ()
+       (dolist (buffer (buffer-list))
+         (with-current-buffer buffer
+           (when (and (buffer-file-name) (buffer-modified-p))
+             (save-buffer))))))
   )
 
 
