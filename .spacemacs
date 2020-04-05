@@ -29,7 +29,7 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(typescript
+   '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -49,6 +49,7 @@ values."
      git
      html
      javascript
+     typescript
      markdown
      org
      osx
@@ -65,6 +66,7 @@ values."
      yaml
      treemacs
      lsp
+     emberjs
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -422,7 +424,9 @@ you should place your code here."
 
     (add-hook
      'ruby-mode-hook
-     (rubocopfmt-mode))
+     (lambda ()
+       (rubocopfmt-mode)
+       (lsp)))
 
     (add-hook
      'after-save-hook
@@ -439,12 +443,3 @@ you should place your code here."
            (when (and (buffer-file-name) (buffer-modified-p))
              (save-buffer))))))
   )
-
-
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-)
-
